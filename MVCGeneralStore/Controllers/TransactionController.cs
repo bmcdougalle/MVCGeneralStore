@@ -24,10 +24,10 @@ namespace MVCGeneralStore.Controllers
                 Value = p.ProductId.ToString()
             });
 
-            ViewData["Customers"] = _db.Customers.Select(p => new SelectListItem
+            ViewData["Customers"] = _db.Customers.Select(c => new SelectListItem
             {
-                Text = p.FirstName + ' ' ,
-                Value = p.CustomerID.ToString()
+                Text = c.FirstName + " " + c.LastName ,
+                Value = c.CustomerID.ToString()
             });
             return View();
         }
@@ -43,6 +43,18 @@ namespace MVCGeneralStore.Controllers
                 return Redirect("/Transaction/" +
                     createdObj.TransactionId);
             }
+            ViewData["Products"] = _db.Products.Select(p => new SelectListItem
+            {
+                Text = p.Name,
+                Value = p.ProductId.ToString()
+            });
+
+            ViewData["Customers"] = _db.Customers.Select(c => new SelectListItem
+            {
+                Text = c.FirstName + " " + c.LastName,
+                Value = c.CustomerID.ToString()
+            });
+
             return View(model);
         }
 
@@ -83,6 +95,7 @@ namespace MVCGeneralStore.Controllers
             if(_db.SaveChanges() == 1)
             {
                 return Redirect("Index");
+                //return Redirect("/transaction/" + createdObj.TransactionId);
             }
 
             ViewData["Products"] = _db.Products.Select(p => new SelectListItem
